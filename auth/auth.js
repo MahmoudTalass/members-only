@@ -11,13 +11,13 @@ module.exports.setUpAuth = (app) => {
             const user = await User.getUser(username);
 
             if (!user) {
-               return done(null, false, { message: "Incorrect username" });
+               return done(null, false, { message: "Incorrect username." });
             }
 
             const matched = await bcrypt.compare(password, user.password);
 
             if (!matched) {
-               return done(null, false, { message: "Incorrect password" });
+               return done(null, false, { message: "Incorrect password." });
             }
 
             return done(null, user);
