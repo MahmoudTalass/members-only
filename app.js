@@ -25,9 +25,15 @@ app.use(
    })
 );
 
-app.use(express.static(path.join(__dirnamedirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 setUpAuth(app);
+
+// Routes
+
+const indexRouter = require("./routes/index.route");
+
+app.use("/", indexRouter);
 
 const PORT = 3000 || process.env.PORT;
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
