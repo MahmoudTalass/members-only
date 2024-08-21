@@ -1,7 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { Message, User } = require("../db/query");
 const bcrypt = require("bcryptjs");
-const { validateSignUp } = require("../validation/validation");
+const { validateSignUp, validateLogin } = require("../validation/validation");
+const passport = require("passport");
 
 const signUpUserGet = asyncHandler((req, res) => {
    if (req.isAuthorized) {
@@ -25,11 +26,40 @@ const signUpUserPost = [
       };
 
       await User.createUser(user);
-      res.sendStatus(201);
+      res.status(201).redirect("/");
    }),
+];
+
+const loginUserGet = (req, res, next) => {
+   if (req.user) {
+      return res.redirect("/");
+   }
+
+   res.render("login");
+};
+
+const loginUserPost = [
+   validateLogin,
+   (req, res, next) => {
+      passport.authenticate("local", (err, user, info, status) => {
+         if (err) {
+            return next(err);
+         }
+         if (info) {
+            return res.render("login", { email: req.body.email, errors: [{ msg: info.message }] });
+         }
+
+         req.login(user, (err) => {
+            if (err) throw err;
+            res.redirect("/");
+         });
+      })(req, res, next);
+   },
 ];
 
 module.exports = {
    signUpUserGet,
    signUpUserPost,
+   loginUserPost,
+   loginUserGet,
 };
