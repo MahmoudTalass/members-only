@@ -13,7 +13,7 @@ class User {
    async createUser({ email, password, firstname, lastname }) {
       const query =
          "INSERT INTO user_account (email, password, firstname, lastname) VALUES ($1, $2, $3, $4)";
-      await pool.query(query);
+      await pool.query(query, [email, password, firstname, lastname]);
    }
 }
 
