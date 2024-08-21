@@ -6,9 +6,9 @@ const bcrypt = require("bcryptjs");
 module.exports.setUpAuth = (app) => {
    app.use(passport.session());
    passport.use(
-      new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
+      new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
          try {
-            const user = await User.getUser(username);
+            const user = await User.getUserByEmail(email);
 
             if (!user) {
                return done(null, false, { message: "Incorrect username." });
