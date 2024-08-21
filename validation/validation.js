@@ -6,7 +6,8 @@ const validateSignUp = [
       .trim()
       .isEmpty()
       .withMessage("Must enter an email.")
-      .isEmail("Must enter a valid email.")
+      .isEmail()
+      .withMessage("Must enter a valid email.")
       .custom(async (email) => {
          const user = await User.getUserByEmail(email);
 
@@ -26,8 +27,12 @@ const validateSignUp = [
       .withMessage("Passwords must match."),
    body("firstname").trim().isEmpty().withMessage("Must enter a first name."),
    body("lastname").trim().isEmpty().withMessage("Must enter a last name."),
-   (req, res, next) => {
-      const errors = validationResult();
+   async (req, res, next) => {
+      const errors = validationResult(req);
+      console.log(
+         await require("../db/pool").query(`SELECT * from role
+`)
+      );
 
       if (!errors.isEmpty()) {
          return res.render("signup", {
@@ -47,14 +52,15 @@ const validateLogin = [
       .trim()
       .isEmpty()
       .withMessage("Must enter an email.")
-      .isEmail("Must enter a valid email."),
+      .isEmail()
+      .withMessage("Must enter a valid email."),
 
    body("password")
       .trim()
       .isLength({ min: 6 })
       .withMessage("Password must be at least 6 characters long."),
    (req, res, next) => {
-      const errors = validationResult();
+      const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
          return res.render("signup", {
