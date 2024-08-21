@@ -4,7 +4,7 @@ const { User } = require("../db/query");
 const validateSignUp = [
    body("email")
       .trim()
-      .isEmpty()
+      .notEmpty()
       .withMessage("Must enter an email.")
       .isEmail()
       .withMessage("Must enter a valid email.")
@@ -25,14 +25,10 @@ const validateSignUp = [
          return value === req.body.password;
       })
       .withMessage("Passwords must match."),
-   body("firstname").trim().isEmpty().withMessage("Must enter a first name."),
-   body("lastname").trim().isEmpty().withMessage("Must enter a last name."),
+   body("firstname").trim().notEmpty().withMessage("Must enter a first name."),
+   body("lastname").trim().notEmpty().withMessage("Must enter a last name."),
    async (req, res, next) => {
       const errors = validationResult(req);
-      console.log(
-         await require("../db/pool").query(`SELECT * from role
-`)
-      );
 
       if (!errors.isEmpty()) {
          return res.render("signup", {
@@ -50,7 +46,7 @@ const validateSignUp = [
 const validateLogin = [
    body("email")
       .trim()
-      .isEmpty()
+      .notEmpty()
       .withMessage("Must enter an email.")
       .isEmail()
       .withMessage("Must enter a valid email."),
