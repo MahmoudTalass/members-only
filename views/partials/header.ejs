@@ -1,11 +1,11 @@
 <header class="bg-color4 p-4 mb-6 flex items-center justify-between text-white">
    <h1 class="text-2xl"><a href="/">Members Only</a></h1>
-   <div class="flex gap-2 items-center">
+   <div class="flex gap-4 items-center">
       <% if (currentUser?.role === null) { %>
-      <a href="/member_form" class="border-b-2">Become member</a>
-      <a href="/admin_form" class="border-b-2">Become Admin</a>
+      <a href="/member-form" class="border-b-2">Become member</a>
+      <a href="/admin-form" class="border-b-2">Become Admin</a>
       <% } %> <% if (currentUser?.role === 'member') { %>
-      <a href="/admin_form" class="border-b-2">Become Admin</a>
+      <a href="/admin-form" class="border-b-2">Become Admin</a>
       <% } %> <% if (currentUser) { %>
       <form method="post" action="/auth/logout">
          <button type="submit" class="bg-color3 rounded-sm px-2 py-1">Logout</button>
