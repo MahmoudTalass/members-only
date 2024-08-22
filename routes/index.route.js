@@ -23,4 +23,6 @@ router.post("/member-form", indexController.memberFormPost);
 router.get("/admin-form", indexController.adminFormGet);
 router.post("/admin-form", indexController.adminFormPost);
 
+router.post("/message/:id/delete", indexController.deleteMessagePost);
+
 module.exports = router;
