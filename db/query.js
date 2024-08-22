@@ -35,6 +35,17 @@ class Message {
 
       return rows;
    }
+
+   async createMessage({ title, text, userId }) {
+      const messageId = await pool.query(
+         "INSERT INTO message (title, text) VALUES ($1, $2) RETURNING id",
+         [title, text]
+      );
+      await pool.query("INSERT INTO user_message (user_account_id, message_id) VALUES($1, $2)", [
+         userId,
+         messageId,
+      ]);
+   }
 }
 
 module.exports = {

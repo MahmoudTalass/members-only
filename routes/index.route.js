@@ -14,4 +14,7 @@ router.get("/", (req, res) => res.redirect("/home"));
 
 router.get("/home", indexController.homePage);
 
+router.get("/new-message", indexController.createMessageGet);
+router.post("/new-message", indexController.createMessagePost);
+
 module.exports = router;
