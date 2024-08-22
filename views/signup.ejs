@@ -3,12 +3,18 @@
    <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="/style.css" />
+
       <title>Sign Up</title>
    </head>
    <body>
       <%- include("partials/header") %>
-      <form action="sign-up" method="post">
-         <div>
+      <main class="flex justify-center">
+         <form
+            action="sign-up"
+            method="post"
+            class="bg-color5 p-4 flex flex-col text-white rounded-sm gap-4 min-w-[300px]"
+         >
             <label for="firstname">First Name:</label>
             <input
                type="text"
@@ -17,8 +23,7 @@
                required
                value="<%= locals.firstname && locals.firstname %>"
             />
-         </div>
-         <div>
+
             <label for="lastname">Last Name:</label>
             <input
                type="text"
@@ -27,8 +32,7 @@
                required
                value="<%= locals.lastname && locals.lastname %>"
             />
-         </div>
-         <div>
+
             <label for="email">Email:</label>
             <input
                type="email"
@@ -37,12 +41,10 @@
                required
                value="<%= locals.email && locals.email %>"
             />
-         </div>
-         <div>
+
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required minlength="6" />
-         </div>
-         <div>
+
             <label for="passwordConfirmation">Confirm Password:</label>
             <input
                type="password"
@@ -51,9 +53,9 @@
                required
                minlength="6"
             />
-         </div>
-         <button type="submit">Sign Up</button>
-         <%- include("partials/errors") %>
-      </form>
+            <button type="submit">Sign Up</button>
+            <%- include("partials/errors") %>
+         </form>
+      </main>
    </body>
 </html>
