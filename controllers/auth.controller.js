@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { Message, User } = require("../db/query");
 const bcrypt = require("bcryptjs");
-const { validateSignUp, validateLogin } = require("../validation/validation");
+const { validateSignUp, validateLogin } = require("../middleware/validation");
 const passport = require("passport");
 
 const signUpUserGet = asyncHandler((req, res) => {
@@ -26,7 +26,7 @@ const signUpUserPost = [
       };
 
       await User.createUser(user);
-      res.status(201).redirect("/");
+      res.status(201).redirect("/auth/login");
    }),
 ];
 
