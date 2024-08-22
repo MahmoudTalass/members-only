@@ -69,7 +69,25 @@ const validateLogin = [
    },
 ];
 
+const validateMessage = [
+   body("title").trim().isLength({ min: 1, max: 255 }).withMessage("Message must have a title."),
+   body("text").trim().notEmpty().withMessage("Must provide message text."),
+   (req, res, next) => {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+         return res.render("message_form", {
+            title: req.body.title,
+            text: req.body.text,
+            error: errors.array(),
+         });
+      }
+      next();
+   },
+];
+
 module.exports = {
    validateLogin,
    validateSignUp,
+   validateMessage,
 };
