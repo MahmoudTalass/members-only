@@ -1,6 +1,10 @@
 const asyncHandler = require("express-async-handler");
-const { Message } = require("../db/query");
-const { validateMessage } = require("../validation/validation");
+const { Message, User } = require("../db/query");
+const {
+   validateMessage,
+   validateAdminPassword,
+   validateMemberPassword,
+} = require("../validation/validation");
 
 const homePage = asyncHandler(async (req, res, next) => {
    const messages = await Message.getAllMessages();
@@ -23,8 +27,35 @@ const createMessagePost = [
    }),
 ];
 
+const memberFormGet = (req, res) => {
+   res.render("member_admin_form", { role: "Member", title: "Member Form" });
+};
+
+const memberFormPost = [
+   validateMemberPassword,
+   asyncHandler(async (req, res) => {
+      await User.updateUserToMember(req.user.id);
+      res.redirect("/");
+   }),
+];
+
+const adminFormGet = (req, res) => {
+   res.render("member_admin_form", { title: "Admin Form", role: "Admin" });
+};
+const adminFormPost = [
+   validateAdminPassword,
+   asyncHandler(async (req, res) => {
+      await User.updateUserToAdmin(req.user.id);
+      res.redirect("/");
+   }),
+];
+
 module.exports = {
    homePage,
    createMessageGet,
    createMessagePost,
+   adminFormGet,
+   adminFormPost,
+   memberFormGet,
+   memberFormPost,
 };

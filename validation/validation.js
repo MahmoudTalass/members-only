@@ -86,8 +86,54 @@ const validateMessage = [
    },
 ];
 
+const validateMemberPassword = [
+   body("password")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide a password.")
+      .custom((password) => password === process.env.MEMBER_PASSWORD)
+      .withMessage("Incorrect password, Try again."),
+   (req, res, next) => {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+         return res.render("member_admin_form", {
+            role: "Member",
+            title: "Member Form",
+            errors: errors.array(),
+         });
+      }
+
+      next();
+   },
+];
+
+const validateAdminPassword = [
+   body("password")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide a password.")
+      .custom((password) => password === process.env.ADMIN_PASSWORD)
+      .withMessage("Incorrect password, Try again."),
+   (req, res, next) => {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+         return res.render("member_admin_form", {
+            role: "Admin",
+            title: "Admin Form",
+            errors: errors.array(),
+         });
+      }
+
+      next();
+   },
+];
+
 module.exports = {
    validateLogin,
    validateSignUp,
    validateMessage,
+   validateAdminPassword,
+   validateMemberPassword,
 };

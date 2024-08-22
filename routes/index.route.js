@@ -17,4 +17,10 @@ router.get("/home", indexController.homePage);
 router.get("/new-message", indexController.createMessageGet);
 router.post("/new-message", indexController.createMessagePost);
 
+router.get("/member-form", indexController.memberFormGet);
+router.post("/member-form", indexController.memberFormPost);
+
+router.get("/admin-form", indexController.adminFormGet);
+router.post("/admin-form", indexController.adminFormPost);
+
 module.exports = router;

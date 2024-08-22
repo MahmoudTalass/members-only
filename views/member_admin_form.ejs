@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="/style.css" />
+      <title><%= title %></title>
+   </head>
+   <body>
+      <%- include("partials/header") %>
+      <main class="flex justify-center">
+         <form
+            method="post"
+            class="bg-color5 p-4 flex flex-col text-white rounded-sm gap-4 min-w-[300px]"
+         >
+            <label for="password" <%= (role === "Member") ? 'data-password-hint="member-2024"' : "" %>>
+            <%= role %> Password <%= role === "Member" ? "(Look for hint!)" : ""%>: </label>
+            <input type="password" name="password" id="password" class="text-color2" required />
+            <button type="submit">Submit</button>
+            <%- include("partials/errors") %>
+         </form>
+      </main>
+   </body>
+</html>

@@ -22,6 +22,14 @@ class User {
          "INSERT INTO user_account (email, password, firstname, lastname) VALUES ($1, $2, $3, $4)";
       await pool.query(query, [email, password, firstname, lastname]);
    }
+
+   async updateUserToMember(id) {
+      await pool.query("UPDATE user_account SET role='member' WHERE id=$1", [id]);
+   }
+
+   async updateUserToAdmin(id) {
+      await pool.query("UPDATE user_account SET role='admin' WHERE id=$1", [id]);
+   }
 }
 
 class Message {
