@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { Message } = require("../db/query");
+const { validateMessage } = require("../validation/validation");
 
 const homePage = asyncHandler(async (req, res, next) => {
    const messages = await Message.getAllMessages();
@@ -11,13 +12,16 @@ const createMessageGet = (req, res) => {
    res.render("message_form");
 };
 
-const createMessagePost = asyncHandler(async (req, res) => {
-   const { title, text } = req.body;
+const createMessagePost = [
+   validateMessage,
+   asyncHandler(async (req, res) => {
+      const { title, text } = req.body;
 
-   await Message.createMessage({ title, text, userId: req.user.id });
+      await Message.createMessage({ title, text, userId: req.user.id });
 
-   res.status(201).redirect("/");
-});
+      res.status(201).redirect("/");
+   }),
+];
 
 module.exports = {
    homePage,
