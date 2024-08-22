@@ -4,7 +4,8 @@ const {
    validateMessage,
    validateAdminPassword,
    validateMemberPassword,
-} = require("../validation/validation");
+} = require("../middleware/validation");
+const { isAuthenticated, isAdmin, isMember } = require("../middleware/auth.middleware");
 
 const homePage = asyncHandler(async (req, res, next) => {
    const messages = await Message.getAllMessages();
@@ -12,11 +13,17 @@ const homePage = asyncHandler(async (req, res, next) => {
    res.render("index", { messages });
 });
 
-const createMessageGet = (req, res) => {
-   res.render("message_form");
-};
+const createMessageGet = [
+   isAuthenticated,
+   isMember,
+   (req, res) => {
+      res.render("message_form");
+   },
+];
 
 const createMessagePost = [
+   isAuthenticated,
+   isMember,
    validateMessage,
    asyncHandler(async (req, res) => {
       const { title, text } = req.body;
@@ -27,11 +34,15 @@ const createMessagePost = [
    }),
 ];
 
-const memberFormGet = (req, res) => {
-   res.render("member_admin_form", { role: "Member", title: "Member Form" });
-};
+const memberFormGet = [
+   isAuthenticated,
+   (req, res) => {
+      res.render("member_admin_form", { role: "Member", title: "Member Form" });
+   },
+];
 
 const memberFormPost = [
+   isAuthenticated,
    validateMemberPassword,
    asyncHandler(async (req, res) => {
       await User.updateUserToMember(req.user.id);
@@ -39,14 +50,29 @@ const memberFormPost = [
    }),
 ];
 
-const adminFormGet = (req, res) => {
-   res.render("member_admin_form", { title: "Admin Form", role: "Admin" });
-};
+const adminFormGet = [
+   isAuthenticated,
+   (req, res) => {
+      res.render("member_admin_form", { title: "Admin Form", role: "Admin" });
+   },
+];
+
 const adminFormPost = [
+   isAuthenticated,
    validateAdminPassword,
    asyncHandler(async (req, res) => {
       await User.updateUserToAdmin(req.user.id);
       res.redirect("/");
+   }),
+];
+
+const deleteMessagePost = [
+   isAuthenticated,
+   isAdmin,
+   asyncHandler(async (req, res) => {
+      const { id } = req.params;
+      await Message.deleteMessage(id);
+      res.status(204).redirect("/");
    }),
 ];
 
@@ -58,4 +84,5 @@ module.exports = {
    adminFormPost,
    memberFormGet,
    memberFormPost,
+   deleteMessagePost,
 };
