@@ -2,11 +2,18 @@ const pool = require("./pool");
 
 class User {
    async getUserByEmail(email) {
-      const { rows } = await pool.query("SELECT * FROM user_account WHERE email=$1", [email]);
+      const query = `
+      SELECT * FROM user_account
+      WHERE email=$1`;
+
+      const { rows } = await pool.query(query, [email]);
       return rows[0] || null;
    }
    async getUserById(id) {
-      const { rows } = await pool.query("SELECT * FROM user_account WHERE id=$1", [id]);
+      const query = `
+      SELECT * FROM user_account 
+      WHERE id=$1`;
+      const { rows } = await pool.query(query, [id]);
       return rows[0] || null;
    }
 
@@ -22,8 +29,6 @@ class Message {
       const query = `
         SELECT *
         FROM user_account 
-        LEFT JOIN user_role ON user_account.id = user_role.user_account_id 
-        LEFT JOIN role ON user_role.role_id = role.id
         JOIN user_message ON user_account.id = user_message.user_account_id
         JOIN message ON user_message.message_id = message.id`;
       const { rows } = await pool.query(query);
