@@ -22,10 +22,11 @@
                id="email"
                required
                value="<%= locals.email && locals.email %>"
+               class="text-color2"
             />
 
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required />
+            <input type="password" name="password" id="password" required class="text-color2" />
             <button type="submit">Login</button>
             <%- include("partials/errors") %>
          </form>

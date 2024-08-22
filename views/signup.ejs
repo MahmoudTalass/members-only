@@ -22,6 +22,7 @@
                id="firstname"
                required
                value="<%= locals.firstname && locals.firstname %>"
+               class="text-color2"
             />
 
             <label for="lastname">Last Name:</label>
@@ -31,6 +32,7 @@
                id="lastname"
                required
                value="<%= locals.lastname && locals.lastname %>"
+               class="text-color2"
             />
 
             <label for="email">Email:</label>
@@ -40,10 +42,18 @@
                id="email"
                required
                value="<%= locals.email && locals.email %>"
+               class="text-color2"
             />
 
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required minlength="6" />
+            <input
+               type="password"
+               name="password"
+               id="password"
+               required
+               minlength="6"
+               class="text-color2"
+            />
 
             <label for="passwordConfirmation">Confirm Password:</label>
             <input
@@ -52,6 +62,7 @@
                id="passwordConfirmation"
                required
                minlength="6"
+               class="text-color2"
             />
             <button type="submit">Sign Up</button>
             <%- include("partials/errors") %>

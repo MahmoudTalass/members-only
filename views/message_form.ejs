@@ -21,9 +21,10 @@
                id="title"
                required
                value="<%= locals.title && locals.title %>"
+               class="text-color2"
             />
             <label for="text">Message:</label>
-            <textarea name="text" id="text" rows="10"></textarea>
+            <textarea name="text" id="text" rows="10" class="text-color2"></textarea>
             <button type="submit">Submit</button>
             <%- include("partials/errors") %>
          </form>
