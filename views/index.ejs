@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="/style.css" />
+      <title>Home</title>
+   </head>
+   <body>
+      <%- include("partials/header") %>
+      <main class="p-4 flex justify-center text-color2">
+         <div class="shadow-lg bg-color max-w-[600px] w-full flex flex-col gap-4 p-2 rounded-sm">
+            <h2 class="text-center text-xl">Member Messages</h2>
+            <% if (messages.length == 0) { %>
+            <p class="text-center">No messages yet</p>
+            <% } %> <% messages.forEach(message => { %>
+            <div>
+               <p><%= currentUser.role ? message.firstname + message.lastname : "Anonymous" %></p>
+               <p><%= currentUser.role && message.timestamp %></p>
+               <div><%= message.text %></div>
+               <%}) %>
+            </div>
+         </div>
+      </main>
+   </body>
+</html>
