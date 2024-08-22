@@ -9,17 +9,36 @@
    <body>
       <%- include("partials/header") %>
       <main class="p-4 flex justify-center text-color2">
-         <div class="shadow-lg bg-color max-w-[600px] w-full flex flex-col gap-4 p-2 rounded-sm">
+         <div
+            class="shadow-lg bg-color max-w-[700px] w-full flex flex-col gap-4 p-2 rounded-sm items-center"
+         >
             <h2 class="text-center text-xl">Member Messages</h2>
-            <% if (messages.length == 0) { %>
+            <% if (currentUser?.role) {%>
+            <a href="/new-message" class="bg-color5 text-white rounded-sm px-2 py-1">New Message</a>
+            <%}%> <% if (messages.length == 0) { %>
             <p class="text-center">No messages yet</p>
             <% } %> <% messages.forEach(message => { %>
-            <div>
-               <p><%= currentUser.role ? message.firstname + message.lastname : "Anonymous" %></p>
-               <p><%= currentUser.role && message.timestamp %></p>
-               <div><%= message.text %></div>
-               <%}) %>
+            <div class="bg-color4 text-white p-2 rounded-md flex flex-col gap-4 min-w-[300px]">
+               <div class="flex justify-between">
+                  <div>
+                     <p>
+                        User: <%= currentUser?.role ? message.firstname + " " + message.lastname :
+                        "Anonymous" %>
+                     </p>
+                     <p>
+                        <%= currentUser?.role && new Date(message.created_at).toLocaleString() %>
+                     </p>
+                  </div>
+                  <% if (currentUser?.role === "admin") { %>
+                  <form action="/message/<%=message.message_id%>/delete" method="post">
+                     <button class="bg-color3 px-2 py-1 rounded-sm">Delete</button>
+                  </form>
+                  <% } %>
+               </div>
+               <p><%= message.text %></p>
             </div>
+
+            <%}) %>
          </div>
       </main>
    </body>
